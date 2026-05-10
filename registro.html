@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricontrol - Registro de Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <!-- Partículas decorativas -->
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="card">
+            <h1 class="title">Agricontrol</h1>
+            <p class="subtitle">Crea tu cuenta</p>
+            
+            <form id="registroForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" id="nombre" name="nombre" placeholder=" " required>
+                            <label for="nombre">Nombre</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" id="apellido" name="apellido" placeholder=" " required>
+                            <label for="apellido">Apellido</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" id="cedula" name="cedula" placeholder=" " required>
+                            <label for="cedula">Cédula</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="tel" id="telefono" name="telefono" placeholder=" " required>
+                            <label for="telefono">Teléfono</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <input type="email" id="correo" name="correo" placeholder=" " required>
+                    <label for="correo">Correo Electrónico</label>
+                </div>
+                
+                <div class="input-group">
+                    <select id="sexo" name="sexo" required>
+                        <option value="" disabled selected></option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                    <label for="sexo">Sexo</label>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="password" id="contrasenia" name="contrasenia" placeholder=" " required>
+                            <label for="contrasenia">Contraseña</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="password" id="confirmar_contrasenia" name="confirmar_contrasenia" placeholder=" " required>
+                            <label for="confirmar_contrasenia">Confirmar Contraseña</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="passwordRequirements" class="password-requirements">
+                    <strong>Requisitos de contraseña segura:</strong>
+                    <ul>
+                        <li id="req-length">Mínimo 8 caracteres</li>
+                        <li id="req-uppercase">Al menos una mayúscula</li>
+                        <li id="req-lowercase">Al menos una minúscula</li>
+                        <li id="req-number">Al menos un número</li>
+                        <li id="req-special">Al menos un carácter especial (@$!%*?&)</li>
+                    </ul>
+                </div>
+                
+                <button type="submit" id="btnRegistrar" class="btn-login">Registrarse</button>
+                
+                <div class="register-link">
+                    ¿Ya tienes cuenta? <a href="index.html">Inicia sesión aquí</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/registro.js"></script>
+    <script>
+        // Crear partículas animadas
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
+            
+            const particleCount = 40;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 6 + 2;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 15 + 8;
+                const delay = Math.random() * 15;
+                
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = left + '%';
+                particle.style.animationDuration = duration + 's';
+                particle.style.animationDelay = delay + 's';
+                particle.style.opacity = Math.random() * 0.4 + 0.2;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', createParticles);
+    </script>
+</body>
+</html>

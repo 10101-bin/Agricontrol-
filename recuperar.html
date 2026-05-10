@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricontrol - Recuperar Contraseña</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1 class="title">Agricontrol</h1>
+            <p class="subtitle">Recupera el acceso a tu cuenta</p>
+            
+            <!-- Paso 1: Solicitar correo -->
+            <div id="paso1">
+                <form id="solicitarRecuperacionForm">
+                    <div class="input-group">
+                        <input type="email" id="correo" name="correo" required>
+                        <label for="correo">Correo Electrónico</label>
+                    </div>
+                    
+                    <button type="submit" id="btnSolicitar" class="btn-login">Enviar Código</button>
+                    
+                    <div class="register-link">
+                        <a href="index.html">← Volver al inicio</a>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Paso 2: Verificar código -->
+            <div id="paso2" style="display: none;">
+                <form id="verificarCodigoForm">
+                    <div class="input-group">
+                        <input type="text" id="codigo" name="codigo" maxlength="6" required>
+                        <label for="codigo">Código de 6 dígitos</label>
+                    </div>
+                    
+                    <div class="text-center mb-3">
+                        <p>¿No recibiste el código? <a href="#" id="reenviarCodigo" class="link">Reenviar código</a></p>
+                        <p id="tiempoRestante" class="small"></p>
+                    </div>
+                    
+                    <button type="submit" id="btnVerificar" class="btn-login">Verificar Código</button>
+                    <button type="button" id="btnVolver" class="btn-outline mt-2">Volver</button>
+                </form>
+            </div>
+            
+            <!-- Paso 3: Cambiar contraseña -->
+            <div id="paso3" style="display: none;">
+                <form id="cambiarContraseniaForm">
+                    <div class="input-group">
+                        <input type="password" id="nueva_contrasenia" name="nueva_contrasenia" required>
+                        <label for="nueva_contrasenia">Nueva Contraseña</label>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="password" id="confirmar_contrasenia" name="confirmar_contrasenia" required>
+                        <label for="confirmar_contrasenia">Confirmar Contraseña</label>
+                    </div>
+                    
+                    <div id="passwordRequirements2" class="password-requirements" style="display: none;">
+                        <strong>Requisitos de contraseña segura:</strong>
+                        <ul>
+                            <li id="req-length2">✓ Mínimo 8 caracteres</li>
+                            <li id="req-uppercase2">✓ Al menos una mayúscula</li>
+                            <li id="req-lowercase2">✓ Al menos una minúscula</li>
+                            <li id="req-number2">✓ Al menos un número</li>
+                            <li id="req-special2">✓ Al menos un carácter especial (@$!%*?&)</li>
+                        </ul>
+                    </div>
+                    
+                    <button type="submit" id="btnCambiar" class="btn-login">Cambiar Contraseña</button>
+                    <button type="button" id="btnCancelar" class="btn-outline mt-2">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/recuperar.js"></script>
+</body>
+</html>

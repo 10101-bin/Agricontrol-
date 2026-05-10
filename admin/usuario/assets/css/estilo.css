@@ -1,0 +1,310 @@
+:root {
+    --verde-principal: #2d6a4f;
+    --verde-claro: #74c69d;
+    --verde-oscuro: #1b4332;
+    --tierra: #8b5a2b;
+    --tierra-claro: #d4a373;
+    --crema: #f8f9fa;
+    --azul-claro: #4fc3f7;
+    --naranja: #ff9800;
+    --amarillo: #ffeb3b;
+    --rosa: #e91e63;
+    --sombra: 0 10px 20px rgba(0,0,0,0.1);
+    --sombra-hover: 0 15px 30px rgba(0,0,0,0.15);
+    --gradiente-verde: linear-gradient(135deg, #2d6a4f 0%, #74c69d 100%);
+    --gradiente-tierra: linear-gradient(135deg, #8b5a2b 0%, #d4a373 100%);
+    --gradiente-fondo: linear-gradient(135deg, #e8f5e9 0%, #c8e6d9 50%, #a8dadc 100%);
+}
+
+body {
+    background: url('/agricontrol/img/fondo-campo.webp') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+
+.navbar {
+    background: var(--gradiente-verde);
+    box-shadow: var(--sombra);
+    animation: navbarGlow 3s ease-in-out infinite alternate;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.btn-agregar {
+    background: var(--gradiente-verde);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: var(--sombra);
+    animation: pulse 2s infinite;
+}
+
+.btn-agregar:hover {
+    background: var(--gradiente-verde);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: var(--sombra-hover);
+    color: white;
+    animation: none;
+}
+
+.card-sembrio {
+    background: linear-gradient(145deg, white 0%, #f0f8f0 100%);
+    border-radius: 20px;
+    border: none;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: var(--sombra);
+    height: 100%;
+    position: relative;
+}
+
+.card-sembrio::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradiente-verde);
+    border-radius: 20px 20px 0 0;
+}
+
+.card-sembrio:hover {
+    transform: translateY(-5px) rotate(1deg);
+    box-shadow: var(--sombra-hover);
+    background: linear-gradient(145deg, #f0f8f0 0%, white 100%);
+}
+
+.card-header-sembrio {
+    background: var(--gradiente-verde);
+    padding: 15px 20px;
+    border-bottom: 3px solid var(--verde-oscuro);
+}
+
+.card-header-sembrio h5 {
+    color: var(--verde-oscuro);
+    font-weight: bold;
+    margin: 0;
+}
+
+.card-body-sembrio {
+    padding: 20px;
+}
+
+.estado-activo {
+    background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+.estado-cosechado {
+    background: var(--gradiente-tierra);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(139, 90, 43, 0.3);
+}
+
+.estado-vencido {
+    background: linear-gradient(135deg, #f44336 0%, #ef5350 100%);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(244, 67, 54, 0.3);
+}
+
+.info-item {
+    margin: 10px 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.info-label {
+    font-weight: bold;
+    color: var(--tierra);
+    font-size: 0.85rem;
+    background: linear-gradient(90deg, var(--tierra) 0%, var(--naranja) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.info-value {
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.btn-editar {
+    background: linear-gradient(135deg, var(--verde-claro) 0%, var(--azul-claro) 100%);
+    color: var(--verde-oscuro);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(116, 198, 157, 0.3);
+}
+
+.btn-editar:hover {
+    background: linear-gradient(135deg, var(--azul-claro) 0%, var(--verde-claro) 100%);
+    color: white;
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: 0 4px 8px rgba(116, 198, 157, 0.5);
+}
+
+.btn-produccion {
+    background: var(--gradiente-tierra);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(139, 90, 43, 0.3);
+}
+
+.btn-produccion:hover {
+    background: linear-gradient(135deg, #d4a373 0%, #8b5a2b 100%);
+    transform: scale(1.05) translateX(2px);
+    color: white;
+    box-shadow: 0 4px 8px rgba(139, 90, 43, 0.5);
+}
+
+.btn-eliminar {
+    background: linear-gradient(135deg, #dc3545 0%, #e57373 100%);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+}
+
+.btn-eliminar:hover {
+    background: linear-gradient(135deg, #e57373 0%, #dc3545 100%);
+    transform: scale(1.05) rotate(-2deg);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.5);
+}
+
+.modal-content {
+    border-radius: 20px;
+    border: none;
+}
+
+.modal-header {
+    background: var(--verde-principal);
+    color: white;
+    border-radius: 20px 20px 0 0;
+}
+
+.form-label {
+    color: var(--verde-oscuro);
+    font-weight: bold;
+}
+
+.form-control, .form-select {
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--verde-principal);
+    box-shadow: 0 0 0 0.2rem rgba(45, 106, 79, 0.25);
+}
+
+.btn-guardar {
+    background: var(--gradiente-verde);
+    color: white;
+    border-radius: 10px;
+    padding: 10px 30px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: var(--sombra);
+}
+
+.btn-guardar:hover {
+    background: linear-gradient(135deg, var(--verde-oscuro) 0%, var(--verde-principal) 100%);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--sombra-hover);
+}
+
+.titulo-dashboard {
+    color: var(--verde-oscuro);
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, var(--verde-oscuro) 0%, var(--verde-principal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(45, 106, 79, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(45, 106, 79, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(45, 106, 79, 0);
+    }
+}
+
+@keyframes backgroundShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes navbarGlow {
+    0% {
+        box-shadow: var(--sombra);
+    }
+    100% {
+        box-shadow: 0 10px 30px rgba(45, 106, 79, 0.4);
+    }
+}
+
+.card-sembrio {
+    animation: fadeIn 0.5s ease-out;
+}

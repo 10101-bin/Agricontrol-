@@ -1,0 +1,19 @@
+.header-section {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(46, 125, 50, 0.3);
+}
+
+.header-logo-titulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.logo {
+    max-width: 50px;
+    height: auto;
+}

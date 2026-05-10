@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricontrol - Iniciar Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <!-- Partículas decorativas -->
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="card">
+            <h1 class="title">Agricontrol</h1>
+            <p class="subtitle">Sistema de Gestión Agrícola</p>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="email" id="correo" name="correo" required>
+                    <label for="correo">Correo Electrónico</label>
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" id="contrasenia" name="contrasenia" required>
+                    <label for="contrasenia">Contraseña</label>
+                </div>
+                
+                <div class="forgot-link">
+                    <a href="recuperar.html">¿Olvidaste tu contraseña?</a>
+                </div>
+                
+                <button type="submit" id="btnLogin" class="btn-login">Iniciar Sesión</button>
+                
+                <div class="register-link">
+                    ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/login.js"></script>
+    <script>
+        // Crear partículas animadas
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 8 + 3;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 15 + 8;
+                const delay = Math.random() * 15;
+                
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = left + '%';
+                particle.style.animationDuration = duration + 's';
+                particle.style.animationDelay = delay + 's';
+                particle.style.opacity = Math.random() * 0.4 + 0.2;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', createParticles);
+    </script>
+</body>
+</html>

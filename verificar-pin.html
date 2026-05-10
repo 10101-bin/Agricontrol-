@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricontrol - Verificar Código</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- Logo y título al lado -->
+            <div class="header-logo">                <h1 class="title">Agricontrol</h1>
+            </div>
+            <p class="subtitle">Verifica tu cuenta</p>
+            
+            <form id="verificarPinForm">
+                <div class="form-group">
+                    <label for="pin">Código de Verificación</label>
+                    <input type="text" id="pin" name="pin" class="form-control text-center" placeholder="000000" maxlength="6" required>
+                    <small class="text-muted d-block text-center mt-2">Hemos enviado un código de 6 dígitos a tu correo electrónico</small>
+                </div>
+                
+                <div class="text-center mb-3">
+                    <p>¿No recibiste el código? <a href="#" id="reenviarPin" class="link">Reenviar código</a></p>
+                    <p id="tiempoRestante" class="text-muted small"></p>
+                </div>
+                
+                <button type="submit" id="btnVerificar" class="btn btn-primary">Verificar Cuenta</button>
+                
+                <div class="text-center mt-3">
+                    <p><a href="index.html" class="link">← Volver al inicio</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/verificar-pin.js"></script>
+</body>
+</html>
