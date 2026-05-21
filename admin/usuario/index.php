@@ -8,6 +8,7 @@ $nombre_usuario = $_SESSION['usuario_nombre'];
 $stmt = $pdo->prepare("
     SELECT 
         p.id_produccion,
+        p.id_producto,
         pr.nombre as producto_nombre,
         pr.dias_cosecha_estimados,
         m.nombre as municipio_nombre,
@@ -35,8 +36,57 @@ $stmt = $pdo->prepare("
 $stmt->execute([$usuario_id]);
 $siembras = $stmt->fetchAll();
 
-$productos = $pdo->query("SELECT id_producto, nombre FROM producto WHERE activo = 1 ORDER BY nombre")->fetchAll();
+$productos = $pdo->query("SELECT id_producto, nombre, dias_cosecha_estimados, unidad_medida FROM producto WHERE activo = 1 ORDER BY nombre")->fetchAll();
 $departamentos = $pdo->query("SELECT id_departamento, nombre FROM departamento ORDER BY nombre")->fetchAll();
+$presentaciones_producto = [];
+try {
+    $stmtPresentaciones = $pdo->query("
+        SELECT DISTINCT
+            id_producto,
+            presentacion,
+            cantidad_unidad,
+            unidad_base
+        FROM precio_producto
+        WHERE presentacion IS NOT NULL
+          AND presentacion <> ''
+        ORDER BY presentacion, cantidad_unidad, unidad_base
+    ");
+    foreach ($stmtPresentaciones->fetchAll(PDO::FETCH_ASSOC) as $presentacion) {
+        $presentaciones_producto[$presentacion['id_producto']][] = $presentacion;
+    }
+} catch (Throwable $e) {
+    $presentaciones_producto = [];
+}
+
+$unidades_siembra = [
+    'unidades' => 'Unidades',
+    'kilos' => 'Kilogramos',
+    'libras' => 'Libras',
+    'toneladas' => 'Toneladas',
+    'hectareas' => 'Hectareas',
+    'bultos' => 'Bultos',
+    'matas' => 'Matas (plantas)',
+    'plantulas' => 'Plantulas',
+    'semillas' => 'Semillas',
+    'arrobas' => 'Arrobas',
+];
+
+$unidades_cosecha = [
+    'kilos' => 'Kilogramos',
+    'libras' => 'Libras',
+    'toneladas' => 'Toneladas',
+    'gramos' => 'Gramos',
+    'unidades' => 'Unidades',
+    'cajas' => 'Cajas',
+    'canastillas' => 'Canastillas',
+    'bultos' => 'Bultos',
+    'bolsas' => 'Bolsas',
+    'cargas' => 'Cargas',
+    'atados' => 'Atados',
+    'manojos' => 'Manojos',
+    'docenas' => 'Docenas',
+    'racimos' => 'Racimos',
+];
 
 $csrf_token = bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $csrf_token;
@@ -72,10 +122,10 @@ $_SESSION['csrf_token'] = $csrf_token;
                 <button class="btn-agregar" data-bs-toggle="modal" data-bs-target="#modalSiembra">
                     + Nueva Siembra
                 </button>
-            </div>
+       </div>
         </div>
     </div>
-    
+
     <div class="row">
         <?php if (empty($siembras)): ?>
             <div class="col-12">
@@ -168,7 +218,7 @@ $_SESSION['csrf_token'] = $csrf_token;
                                     Editar
                                 </button>
                                 <?php if (!$siembra['cantidad_producida'] && $siembra['estado'] != 'cosechado'): ?>
-                                <button class="btn-produccion flex-grow-1" onclick="registrarProduccion(<?php echo $siembra['id_produccion']; ?>)">
+                                <button class="btn-produccion flex-grow-1" onclick="registrarProduccion(<?php echo $siembra['id_produccion']; ?>, <?php echo $siembra['id_producto']; ?>)">
                                     Registrar Cosecha
                                 </button>
                                 <?php endif; ?>
@@ -197,7 +247,7 @@ $_SESSION['csrf_token'] = $csrf_token;
                     <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
                     
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="form-label">Departamento</label>
                             <select class="form-select" id="departamento" name="id_departamento" required>
                                 <option value="">Seleccione departamento</option>
@@ -208,25 +258,60 @@ $_SESSION['csrf_token'] = $csrf_token;
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label class="form-label">Buscar municipio</label>
+                            <input
+                                type="search"
+                                class="form-control"
+                                id="buscar_municipio"
+                                placeholder="Escribe para buscar municipio"
+                                disabled
+                                autocomplete="off"
+                            >
+                        </div>
+                        <div class="col-md-4">
                             <label class="form-label">Municipio</label>
                             <select class="form-select" id="municipio" name="id_municipio" required disabled>
                                 <option value="">Primero seleccione departamento</option>
                             </select>
+                            <div class="text-muted mt-2" id="total_municipios_filtrados">Seleccione departamento</div>
                         </div>
                     </div>
+
+                    <script type="application/json" id="presentacionesProductoData">
+                        <?php echo json_encode($presentaciones_producto, JSON_UNESCAPED_UNICODE); ?>
+                    </script>
                     
                     <div class="row mb-3">
-                        <div class="col-md-12">
+                        <div class="col-md-5">
+                            <label class="form-label">Buscar producto</label>
+                            <input
+                                type="search"
+                                class="form-control"
+                                id="buscar_producto"
+                                placeholder="Escribe para buscar producto"
+                                autocomplete="off"
+                            >
+                        </div>
+                        <div class="col-md-5">
                             <label class="form-label">Producto</label>
-                            <select class="form-select" name="id_producto" required>
+                            <select class="form-select" name="id_producto" id="id_producto" required>
                                 <option value="">Seleccione producto</option>
                                 <?php foreach ($productos as $producto): ?>
-                                    <option value="<?php echo $producto['id_producto']; ?>">
+                                    <option
+                                        value="<?php echo $producto['id_producto']; ?>"
+                                        data-dias="<?php echo $producto['dias_cosecha_estimados']; ?>"
+                                        data-unidad="<?php echo htmlspecialchars($producto['unidad_medida'] ?? ''); ?>"
+                                        data-search="<?php echo htmlspecialchars($producto['nombre']); ?>"
+                                    >
                                         <?php echo htmlspecialchars($producto['nombre']); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
+                            <div class="text-muted mt-2" id="unidad_producto_sugerida">Unidad del producto: no seleccionada</div>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-outline-secondary w-100" id="limpiar_filtros_siembra">Limpiar</button>
                         </div>
                     </div>
                     
@@ -237,10 +322,12 @@ $_SESSION['csrf_token'] = $csrf_token;
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Unidad de medida (siembra)</label>
-                            <select class="form-select" name="tipo_medida_siembra" required>
-                                <option value="kilos">Kilogramos</option>
-                                <option value="matas">Matas (plantas)</option>
-                                <option value="unidades">Unidades</option>
+                            <select class="form-select" name="tipo_medida_siembra" id="tipo_medida_siembra" required>
+                                <?php foreach ($unidades_siembra as $valor => $etiqueta): ?>
+                                    <option value="<?php echo htmlspecialchars($valor); ?>">
+                                        <?php echo htmlspecialchars($etiqueta); ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -248,16 +335,21 @@ $_SESSION['csrf_token'] = $csrf_token;
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label">Fecha de siembra</label>
-                            <input type="date" class="form-control" name="fecha_siembra" required>
+                            <input type="date" class="form-control" name="fecha_siembra" id="fecha_siembra" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Fecha estimada de cosecha</label>
-                            <input type="date" class="form-control" name="fecha_cosecha_estimada" required>
+                            <label class="form-label">Tiempo estimado para cosecha (días)</label>
+                            <input type="number" min="0" class="form-control" id="dias_cosecha_estimados" readonly>
                         </div>
                     </div>
-                    
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label class="form-label">Fecha estimada de cosecha</label>
+                            <input type="text" class="form-control" id="fecha_cosecha_estimada_preview" readonly placeholder="Se calculará según la fecha y el producto seleccionado">
+                        </div>
+                    </div>
                     <div class="alert alert-info">
-                        <strong>Información:</strong> La cantidad producida se registrará después de la cosecha.
+                        <strong>Información:</strong> El tiempo estimado se obtiene del producto seleccionado en la base de datos.
                     </div>
                     
                     <div class="text-end">
@@ -291,10 +383,11 @@ $_SESSION['csrf_token'] = $csrf_token;
                     <div class="mb-3">
                         <label class="form-label">Unidad de medida (cosecha)</label>
                         <select class="form-select" name="tipo_medida_cosecha" id="edit_tipo_medida_cosecha" required>
-                            <option value="kilos">Kilogramos</option>
-                            <option value="cajas">Cajas</option>
-                            <option value="unidades">Unidades</option>
-                            <option value="toneladas">Toneladas</option>
+                            <?php foreach ($unidades_cosecha as $valor => $etiqueta): ?>
+                                <option value="<?php echo htmlspecialchars($valor); ?>">
+                                    <?php echo htmlspecialchars($etiqueta); ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     
@@ -334,10 +427,11 @@ $_SESSION['csrf_token'] = $csrf_token;
                     <div class="mb-3">
                         <label class="form-label">Unidad de medida (cosecha)</label>
                         <select class="form-select" name="tipo_medida_cosecha" required>
-                            <option value="kilos">Kilogramos</option>
-                            <option value="cajas">Cajas</option>
-                            <option value="unidades">Unidades</option>
-                            <option value="toneladas">Toneladas</option>
+                            <?php foreach ($unidades_cosecha as $valor => $etiqueta): ?>
+                                <option value="<?php echo htmlspecialchars($valor); ?>">
+                                    <?php echo htmlspecialchars($etiqueta); ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     
@@ -357,6 +451,6 @@ $_SESSION['csrf_token'] = $csrf_token;
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/funciones.js"></script>
+<script src="assets/js/funciones.js?v=<?php echo filemtime(__DIR__ . '/assets/js/funciones.js'); ?>"></script>
 </body>
 </html>

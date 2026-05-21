@@ -1,0 +1,130 @@
+:root {
+    --verde-principal: #2d6a4f;
+    --verde-claro: #52b788;
+    --verde-oscuro: #1b4332;
+    --tierra: #9c6644;
+    --sombra: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+body {
+    background: linear-gradient(135deg, #0a5c2e 0%, #1a7431 50%, #2d6a4f 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+.navbar {
+    background: rgba(27, 67, 50, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--sombra);
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.card-sembrio {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    border: none;
+    overflow: hidden;
+    box-shadow: var(--sombra);
+}
+
+.titulo-dashboard {
+    color: var(--verde-oscuro);
+    font-weight: bold;
+    border-left: 4px solid #f4a261;
+    padding-left: 15px;
+}
+
+.stats-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.stats-number {
+    font-size: 2.2rem;
+    font-weight: bold;
+}
+
+.stats-label {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.btn-guardar {
+    background: linear-gradient(135deg, #2d6a4f, #40916c);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-guardar:hover {
+    transform: scale(1.02);
+    background: linear-gradient(135deg, #40916c, #2d6a4f);
+    color: white;
+}
+
+.btn-produccion {
+    background: linear-gradient(135deg, #f4a261, #e76f51);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-produccion:hover {
+    transform: scale(1.02);
+    color: white;
+}
+
+.form-label {
+    color: var(--verde-oscuro);
+    font-weight: bold;
+}
+
+.form-control, .form-select {
+    border-radius: 10px;
+    border: 2px solid #e9c46a;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--verde-principal);
+    box-shadow: 0 0 0 0.2rem rgba(45, 106, 79, 0.25);
+}
+
+.table-success {
+    background-color: var(--verde-claro) !important;
+    color: white;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
